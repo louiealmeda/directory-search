@@ -5,8 +5,11 @@ Directory Search
 
 As your project become more complex, it's handful to have an intuitive and simple way to search for a file.
 
+![Directory Search](https://lh4.googleusercontent.com/WO1LIrxd_GBHzGe4bWcnF3K2J7EOYqM2zyb0gRi6ZdmAGv2YztsPzjPD8zeyFi5TBVNDB1hWE-d1wSA=w1255-h516)
+
 Easily search for files in your project directory.  Run by selecting
 `Search Files` under the `Find` menu, or using the `Alt+F` shortcut.
+
 
 ##Install
 
