@@ -1,0 +1,10 @@
+.jstree-leaf.hidden, .jstree-open.hidden{
+	display: none !important;
+}
+
+#directory-search-bar{
+  background: url('magnifier.png') 6px center no-repeat #333;
+  padding-left: 30px;
+  width: calc( 100% - 50px );
+  display: block;
+}
