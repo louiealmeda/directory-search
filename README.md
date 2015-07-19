@@ -3,7 +3,7 @@ Directory Search
 
 **Extension for Adobe Brackets**
 
-Search files within your project directory with ease.
+As your project become more complex, it's handful to have an intuitive and simple way to search for a file.
 
 Easily search for files in your project directory.  Run by selecting
 `Search Files` under the `Find` menu, or using the `Alt+F` shortcut.
