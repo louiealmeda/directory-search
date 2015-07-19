@@ -1,9 +1,9 @@
 {
     "name": "directory-search",
     "title": "Directory Search",
-    "description": "Search files within your project directory",
+    "description": "Search files within your project directory in an intituitive and simple way.",
     "homepage": "https://github.com/louiealmeda/directory-search",
-    "version": "1.0.3",
+    "version": "1.0.0",
     "author": "Louie Almeda (https://github.com/louiealmeda)",
     "license": "Unlicense",
     "categories": "search",

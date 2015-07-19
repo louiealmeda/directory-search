@@ -21,21 +21,35 @@ define(function (require, exports, module) {
         function buildSearchButton() {
 
             var projectFilesHeader = document.getElementById( 'project-files-header' );
-    
+            var defaultPlaceholder = "Alt + F to start searching";
+
             
             var searchBar = document.createElement("input");
             searchBar.type = "text";
-            searchBar.setAttribute("placeholder", "search...");
+            searchBar.setAttribute("placeholder", defaultPlaceholder);
             searchBar.id = "directory-search-bar";
             searchBar.addEventListener("keyup", filter);
 
             projectFilesHeader.appendChild(searchBar);
 
+            $("input#directory-search-bar").on("blur", function(){
+                $(this).attr("placeholder", defaultPlaceholder);
+            });
+
+            $("input#directory-search-bar").on("focus", function(){
+                $(this).attr("placeholder", "search...");
+            });
+
         };
 
         function focusToSearchBar(){
 
-            $("input#directory-search-bar").focus();
+            var input = $("input#directory-search-bar");
+            input.focus();
+
+            input = input[0];
+
+            input.setSelectionRange(0, input.value.length);
 
         };
         
