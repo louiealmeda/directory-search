@@ -11,7 +11,7 @@ define(function (require, exports, module) {
         Menus          = brackets.getModule("command/Menus"),
         COMMAND_ID     = "directorySearch.search";
 
-
+    var focusedElemenent = null;
 
         ExtensionUtils.loadStyleSheet(module, "style.css");
 
@@ -44,6 +44,8 @@ define(function (require, exports, module) {
 
         function focusToSearchBar(){
 
+            focusedElemenent = $(":focus");
+
             var input = $("input#directory-search-bar");
             input.focus();
 
@@ -55,10 +57,16 @@ define(function (require, exports, module) {
         
         function filter(e){
 
-            console.log(e);
+            // console.log(e);
 
-            if(e.keyCode == 27)
+            if(e.keyCode == 27){
+
+                if(e.srcElement.value == "")
+                    focusedElemenent.focus();
+
                 e.srcElement.value = "";
+
+            }
 
             var val = e.srcElement.value;
 
@@ -75,7 +83,7 @@ define(function (require, exports, module) {
 
                 var escapedVal = val.replace(".", "\.");
 
-                console.log(escapedVal);
+                // console.log(escapedVal);
 
                 if( !new RegExp( escapedVal ,"i").test(file.attr("data-reactid")))
                     file.addClass("hidden");
