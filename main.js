@@ -12,7 +12,7 @@ define(function (require, exports, module) {
         COMMAND_ID     = "directorySearch.search";
 
     var focusedElemenent = null;
-
+    var originallyOpenedDir = [];
         ExtensionUtils.loadStyleSheet(module, "style.css");
 
         buildSearchButton();
@@ -28,7 +28,7 @@ define(function (require, exports, module) {
             searchBar.type = "text";
             searchBar.setAttribute("placeholder", defaultPlaceholder);
             searchBar.id = "directory-search-bar";
-            searchBar.addEventListener("keyup", filter);
+            searchBar.addEventListener("keydown", filter);
 
             projectFilesHeader.appendChild(searchBar);
 
@@ -40,6 +40,22 @@ define(function (require, exports, module) {
                 $(this).attr("placeholder", "search...");
             });
 
+            
+            var input = $("input#directory-search-bar");
+                
+            if(input.val().length == 0)
+            {
+                
+                $("input#directory-search-bar")
+                .on("focus", function(){
+                    saveDirectoryState();
+                })
+                .on("blur", function(){
+
+                    loadDirectoryState();
+                });
+
+            }
         };
 
         function focusToSearchBar(){
@@ -50,42 +66,97 @@ define(function (require, exports, module) {
             input.focus();
 
             input = input[0];
-
+            
             input.setSelectionRange(0, input.value.length);
-
+            
+            
+            
         };
         
+        function nameFiles(projectFiles){
+            
+            
+            projectFiles.each(function(i,e){
+                
+                var file = $(e);
+                
+                var parts = file.find("a span");
+                
+                file.attr("data-file-name", parts[1].innerHTML + parts[2].innerHTML);
+                
+            });
+            
+        };
+    
+        function saveDirectoryState(){
+            
+            originallyOpenedDir = [];
+            
+            $(".jstree-closed").each(function (i,e) {
+               
+                originallyOpenedDir.push($(e).attr("data-reactid"));
+                
+            });
+            
+        };
+    
+        function loadDirectoryState(){
+            
+            
+           
+            for(i in originallyOpenedDir)
+            {
+                var dir = $("[data-reactid='"+originallyOpenedDir[i]+"'].jstree-open");
+                
+                dir.click();
+            }
+            
+            
+//            $("ul.jstree-brackets .originally-closed").removeClass("originally-closed").click();
+        };
+    
         function filter(e){
 
-            // console.log(e);
+            var projectFiles = $("ul.jstree-brackets .jstree-leaf");
+//             console.log(e);
 
             if(e.keyCode == 27){
-
+                
+                var prev = e.srcElement.value;
                 if(e.srcElement.value == "")
+                {
                     focusedElemenent.focus();
-
+                }
+                
                 e.srcElement.value = "";
-
+                
+                
+                    loadDirectoryState();
+                
+                if(prev == "")
+                    return;
             }
+            
 
             var val = e.srcElement.value;
 
             var directories = $("ul.jstree-brackets .jstree-closed");
             directories.click();
             
+            if($(".jstree-leaf:not([data-file-name]").length != 0)
+                nameFiles(projectFiles);
+            
             $("ul.jstree-brackets .hidden").removeClass("hidden");
 
-            var projectFiles = $("ul.jstree-brackets .jstree-leaf");
-
+            
             projectFiles.each(function(i,e){
 
                 var file = $(e);
 
                 var escapedVal = val.replace(".", "\.");
 
-                // console.log(escapedVal);
-
-                if( !new RegExp( escapedVal ,"i").test(file.attr("data-reactid")))
+//                if( !new RegExp( escapedVal ,"i").test(file.attr("data-reactid")))
+                if( !new RegExp( escapedVal ,"i").test(file.attr("data-file-name")))
                     file.addClass("hidden");
                 else
                     file.removeClass("hidden");
@@ -98,9 +169,7 @@ define(function (require, exports, module) {
 
                     var dir = $(e);
 
-                    if( dir.find(".jstree-open").length == 0 && 
-                        dir.find(".jstree-leaf.hidden").length == dir.find(".jstree-leaf").length
-                        )
+                    if( dir.find(".jstree-leaf.hidden").length == dir.find(".jstree-leaf").length )
                     {
 
                         dir.addClass("hidden");
