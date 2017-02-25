@@ -82,7 +82,7 @@ define(function (require, exports, module) {
                 
                 var parts = file.find("a span");
                 
-                file.attr("data-file-name", parts[1].innerHTML + parts[2].innerHTML);
+                file.attr("data-file-name", parts.text());
                 
             });
             
